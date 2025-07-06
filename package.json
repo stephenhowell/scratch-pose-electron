@@ -1,0 +1,50 @@
+{
+  "name": "scratch-pose-electron",
+  "version": "1.0.0",
+  "description": "Scratch 3 with Pose Detection extension",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "dev": "electron . --dev",
+    "build": "npm run build:scratch && electron-builder",
+    "build:scratch": "cd scratch-forks/scratch-gui && npm run build",
+    "package": "electron-forge package",
+    "electron-dev": "npm run build:scratch && electron . --dev",
+    "make": "electron-forge make"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.8.1",
+    "@electron-forge/maker-deb": "^7.8.1",
+    "@electron-forge/maker-rpm": "^7.8.1",
+    "@electron-forge/maker-squirrel": "^7.8.1",
+    "@electron-forge/maker-zip": "^7.8.1",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.8.1",
+    "@electron-forge/plugin-fuses": "^7.8.1",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^32.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1",
+    "ws": "^8.18.3"
+  },
+  "build": {
+    "appId": "com.stephenhowell.scratch-pose",
+    "productName": "Scratch Pose Detection",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/",
+      "build/",
+      "assets/",
+      "node_modules/"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    }
+  }
+}

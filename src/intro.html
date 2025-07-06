@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PoseLandmarkBlocks - Body Tracking for Scratch</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .steps {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .step {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 1.1rem;
+        }
+
+        .step-number {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .start-button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.3rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .start-button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .device-options {
+            margin: 2rem 0;
+        }
+
+        .device-option {
+            display: inline-block;
+            margin: 0 1rem;
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .device-option:hover,
+        .device-option.selected {
+            border-color: #4CAF50;
+            background: rgba(76, 175, 80, 0.3);
+        }
+
+        .ip-info {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🕺 PoseLandmarkBlocks</h1>
+        <p class="subtitle">Track your body movements in Scratch!</p>
+
+        <div class="steps">
+            <h2>Quick Start Guide</h2>
+
+            <div class="step">
+                <span class="step-number">1</span>
+                <strong>Choose your tracking device:</strong>
+                <div class="device-options">
+                    <div class="device-option selected" data-device="phone">
+                        📱 Phone Camera<br>
+                        <small>(Recommended - works anywhere)</small>
+                    </div>
+                    <div class="device-option" data-device="kinect">
+                        📹 Kinect Camera<br>
+                        <small>(Advanced - needs Kinect hardware)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step" id="phone-instructions" style="display: block;">
+                <span class="step-number">2</span>
+                <strong>Connect your phone:</strong>
+                <br>• Download our Android app (link coming soon)
+                <br>• Make sure your phone and computer are on the same WiFi
+                <div class="ip-info">
+                    Your computer's IP address: <span id="ip-address">Loading...</span>
+                </div>
+            </div>
+
+            <div class="step" id="kinect-instructions" style="display: none;">
+                <span class="step-number">2</span>
+                <strong>Connect your Kinect:</strong>
+                <br>• Make sure your Kinect is plugged in
+                <br>• Start Kinect2Scratch.exe (included)
+                <br>• Stand in front of the Kinect sensor
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <strong>Start coding:</strong>
+                <br>• Click "Start Posing" below
+                <br>• A sample project will load showing you how to connect
+                <br>• Press the green flag in Scratch
+                <br>• Follow the on-screen connection prompts
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <strong>Have fun!</strong>
+                <br>• Watch the cat follow your hand movements
+                <br>• Try changing the code to use different body parts
+                <br>• Create your own pose-controlled games!
+            </div>
+        </div>
+
+        <button class="start-button" onclick="startPosing()">
+            🚀 Start Posing with Scratch!
+        </button>
+
+        <p style="margin-top: 2rem; opacity: 0.8;">
+            <small>Developed by UCD SMARTlab • Body tracking for creative coding</small>
+        </p>
+    </div>
+
+    <script>
+        async function getLocalIP() {
+            try {
+                // This will now correctly receive the ipAddress
+                const response = await window.electronAPI.getAppInfo();
+                document.getElementById('ip-address').textContent = response.ipAddress || 'Unable to detect';
+            } catch (error) {
+                console.error('Could not get app info:', error);
+                document.getElementById('ip-address').textContent = 'Error';
+            }
+        }
+
+        document.querySelectorAll('.device-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.device-option').forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                const device = option.dataset.device;
+                document.getElementById('phone-instructions').style.display = device === 'phone' ? 'block' : 'none';
+                document.getElementById('kinect-instructions').style.display = device === 'kinect' ? 'block' : 'none';
+            });
+        });
+
+        async function startPosing() {
+            // This is the first message you should see in the DevTools console
+            console.log('[Intro Page] "Start Posing" button clicked. Sending IPC message...');
+            try {
+                const result = await window.electronAPI.startPosing();
+                if (!result.success) {
+                    console.error('Main process failed to start Scratch:', result.error);
+                }
+            } catch (error) {
+                console.error('Error sending startPosing message:', error);
+            }
+        }
+
+        // Initialize
+        getLocalIP();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {"name": "Electron App", "path": "."},
+    {"name": "Scratch VM", "path": "./scratch-forks/scratch-vm"},
+    {"name": "Scratch GUI", "path": "./scratch-forks/scratch-gui"}
+  ],
+  "settings": {
+    "typescript.preferences.includePackageJsonAutoImports": "on",
+    "eslint.workingDirectories": [".", "scratch-forks/scratch-vm", "scratch-forks/scratch-gui"]
+  }
+}

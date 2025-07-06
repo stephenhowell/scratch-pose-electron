@@ -4,6 +4,8 @@ build/
 *.log
 .DS_Store
 Thumbs.db
-scratch-vm/node_modules/
-scratch-gui/node_modules/
-scratch-gui/build/
+scratch-forks/scratch-vm/node_modules/
+scratch-forks/scratch-gui/node_modules/
+scratch-forks/scratch-gui/build/
+
+out/
