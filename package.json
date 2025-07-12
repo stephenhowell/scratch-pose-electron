@@ -2,6 +2,7 @@
   "name": "body-blocks",
   "version": "1.0.0",
   "description": "Scratch 3 with Body Blocks (Pose Detection) extension",
+  "author": "Stephen Howell",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
