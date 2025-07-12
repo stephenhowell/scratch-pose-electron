@@ -1,0 +1,8 @@
+[submodule "scratch-forks/scratch-gui"]
+	path = scratch-forks/scratch-gui
+	url = https://github.com/stephenhowell/scratch-gui.git
+	branch = develop
+[submodule "scratch-forks/scratch-vm"]
+	path = scratch-forks/scratch-vm
+	url = https://github.com/stephenhowell/scratch-vm.git
+	branch = develop
