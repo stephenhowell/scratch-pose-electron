@@ -1,4 +1,4 @@
-﻿name: Build Body Blocks Electron
+name: Build Body Blocks Electron
 
 on:
   push:
@@ -14,8 +14,6 @@ jobs:
             name: Windows
           - os: macos-latest
             name: macOS
-          - os: ubuntu-latest
-            name: Linux
     
     runs-on: ${{ matrix.os }}
     
@@ -29,8 +27,24 @@ jobs:
       with:
         node-version: '18'
     
-    - name: Install dependencies
+    - name: Install main dependencies
       run: npm ci
+    
+    - name: Install scratch-vm dependencies
+      working-directory: scratch-forks/scratch-vm
+      run: npm ci
+    
+    - name: Link scratch-vm
+      working-directory: scratch-forks/scratch-vm
+      run: npm link
+    
+    - name: Install scratch-gui dependencies
+      working-directory: scratch-forks/scratch-gui
+      run: npm ci
+    
+    - name: Link scratch-vm to scratch-gui
+      working-directory: scratch-forks/scratch-gui
+      run: npm link scratch-vm
     
     - name: Build Scratch GUI
       run: npm run build:scratch
@@ -46,6 +60,4 @@ jobs:
           out/make/**/*.exe
           out/make/**/*.zip
           out/make/**/*.dmg
-          out/make/**/*.deb
-          out/make/**/*.rpm
         if-no-files-found: error
