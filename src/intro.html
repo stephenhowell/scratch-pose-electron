@@ -21,6 +21,16 @@
         .container {
             max-width: 800px;
             text-align: center;
+            position: relative;
+        }
+
+        .posey-character {
+            width: 180px;
+            height: auto;
+            position: absolute;
+            top: 80px;
+            right: -90px;
+            z-index: 10;
         }
 
         h1 {
@@ -110,71 +120,81 @@
             font-family: monospace;
             font-size: 1.1rem;
         }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .posey-character {
+                width: 120px;
+                top: 60px;
+                right: -50px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>🕺 PoseLandmarkBlocks</h1>
-        <p class="subtitle">Track your body movements in Scratch!</p>
+        <img src="posey.png" alt="Posey mascot" class="posey-character">
+        
+        <h1>Body Blocks</h1>
+        <p class="subtitle">Interact with Scratch using your body!</p>
 
-        <div class="steps">
-            <h2>Quick Start Guide</h2>
+            <div class="steps">
+                <h2>Quick Start Guide</h2>
 
-            <div class="step">
-                <span class="step-number">1</span>
-                <strong>Choose your tracking device:</strong>
-                <div class="device-options">
-                    <div class="device-option selected" data-device="phone">
-                        📱 Phone Camera<br>
-                        <small>(Recommended - works anywhere)</small>
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <strong>Choose your tracking device:</strong>
+                    <div class="device-options">
+                        <div class="device-option selected" data-device="phone">
+                            📱 Phone (<strong>Android</strong>) Camera<br>
+                            <small>Single person detection</small><br/>
+                            <small>(Recommended)</small>
+                        </div>
+                        <div class="device-option" data-device="kinect">
+                            📹 Kinect Sensor<br>
+                            <small>Multiple (1 - 6 people) detection</small><br/>
+                            <small>(Requires discontinued Kinect v2)</small>
+                        </div>
                     </div>
-                    <div class="device-option" data-device="kinect">
-                        📹 Kinect Camera<br>
-                        <small>(Advanced - needs Kinect hardware)</small>
+                </div>
+
+                <div class="step" id="phone-instructions" style="display: block;">
+                    <span class="step-number">2</span>
+                    <strong>Connect your phone:</strong>
+                    <br>• Download and install companion Body Blocks Android app (link coming soon)
+                    <br>• Make sure your phone and computer are on the same WiFi
+                    <div class="ip-info">
+                        Your computer's IP address: <span id="ip-address">Loading...</span>
                     </div>
+                </div>
+
+                <div class="step" id="kinect-instructions" style="display: none;">
+                    <span class="step-number">2</span>
+                    <strong>Connect your Kinect:</strong>
+                    <br>• Make sure your Kinect is plugged in to electricity 
+                    <br>• Plug Kinect into Windows computer USB3 port and wait for drivers to install
+                    <br>• Start Kinect2Scratch.exe (included)
+                    <br>• Stand in front of the Kinect sensor
+                </div>
+
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <strong>Start coding:</strong>
+                    <br>• Click "Start Posing" below
+                    <br>• A sample project will load showing you how to connect
+                    <br>• Press the green flag in Scratch
+                    <br>• Follow the on-screen connection prompts
                 </div>
             </div>
 
-            <div class="step" id="phone-instructions" style="display: block;">
-                <span class="step-number">2</span>
-                <strong>Connect your phone:</strong>
-                <br>• Download our Android app (link coming soon)
-                <br>• Make sure your phone and computer are on the same WiFi
-                <div class="ip-info">
-                    Your computer's IP address: <span id="ip-address">Loading...</span>
-                </div>
-            </div>
-
-            <div class="step" id="kinect-instructions" style="display: none;">
-                <span class="step-number">2</span>
-                <strong>Connect your Kinect:</strong>
-                <br>• Make sure your Kinect is plugged in
-                <br>• Start Kinect2Scratch.exe (included)
-                <br>• Stand in front of the Kinect sensor
-            </div>
-
-            <div class="step">
-                <span class="step-number">3</span>
-                <strong>Start coding:</strong>
-                <br>• Click "Start Posing" below
-                <br>• A sample project will load showing you how to connect
-                <br>• Press the green flag in Scratch
-                <br>• Follow the on-screen connection prompts
-            </div>
-
-            <div class="step">
-                <span class="step-number">4</span>
-                <strong>Have fun!</strong>
-                <br>• Watch the cat follow your hand movements
-                <br>• Try changing the code to use different body parts
-                <br>• Create your own pose-controlled games!
-            </div>
-        </div>
-
-        <button class="start-button" onclick="startPosing()">
-            🚀 Start Posing with Scratch!
-        </button>
+            <button class="start-button" onclick="startPosing()">
+                🚀 Start Posing with Scratch!
+            </button>
 
         <p style="margin-top: 2rem; opacity: 0.8;">
             <small>Developed by UCD SMARTlab • Body tracking for creative coding</small>

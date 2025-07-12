@@ -1,7 +1,7 @@
 {
-  "name": "scratch-pose-electron",
+  "name": "body-blocks",
   "version": "1.0.0",
-  "description": "Scratch 3 with Pose Detection extension",
+  "description": "Scratch 3 with Body Blocks (Pose Detection) extension",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -29,8 +29,8 @@
     "ws": "^8.18.3"
   },
   "build": {
-    "appId": "com.stephenhowell.scratch-pose",
-    "productName": "Scratch Pose Detection",
+    "appId": "com.stephenhowell.body-blocks",
+    "productName": "Body Blocks for Scratch",
     "directories": {
       "output": "dist"
     },
