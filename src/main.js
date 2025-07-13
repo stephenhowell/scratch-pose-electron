@@ -84,23 +84,22 @@ ipcMain.handle('start-posing', async () => {
     await mainWindow.loadURL(scratchPath);
 
     // After the GUI has loaded, inject the API
-    mainWindow.webContents.once('dom-ready', async () => {
-        console.log('[Main Process] DOM is ready. Attempting to inject API into VM runtime...');
-        
-        await mainWindow.webContents.executeJavaScript(`
-            // This script polls until both the VM and the API are ready
-            const installApiWhenReady = () => {
-                if (window.vm && window.electronAPI) {            
-                    console.log('✅ VM and electronAPI found. Injecting API into vm.runtime...');
-                    window.vm.runtime.electronAPI = window.electronAPI;
-                } else {
-                    // If not ready, check again on the next frame
-                    requestAnimationFrame(installApiWhenReady);
-                }
-            };
-            installApiWhenReady();
-        `);
-    });
+    // mainWindow.webContents.once('dom-ready', async () => {
+    //     console.log('[Main Process] DOM is ready. Attempting to inject API into VM runtime...');
+    //     await mainWindow.webContents.executeJavaScript(`
+    //         // This script polls until both the VM and the API are ready
+    //         const installApiWhenReady = () => {
+    //             if (window.vm && window.electronAPI) {            
+    //                 console.log('✅ VM and electronAPI found. Injecting API into vm.runtime...');
+    //                 window.vm.runtime.electronAPI = window.electronAPI;
+    //             } else {
+    //                 // If not ready, check again on the next frame
+    //                 requestAnimationFrame(installApiWhenReady);
+    //             }
+    //         };
+    //         installApiWhenReady();
+    //     `);
+    // });
 
     return { success: true };
 });
@@ -124,7 +123,7 @@ ipcMain.handle('get-file-as-buffer', async (event, filePath) => {
 // Handle the stop-pose-client request to close the current WebSocket client connection
 ipcMain.handle('stop-pose-client', () => {
     if (currentPoseClient) {
-        console.log('[Main Process] Closing active client connection via block.');
+        // console.log('[Main Process] Closing active client connection via block.');
         currentPoseClient.close();
         currentPoseClient = null;
         return { success: true, message: 'Client connection stopped.' };
@@ -134,7 +133,7 @@ ipcMain.handle('stop-pose-client', () => {
 
 ipcMain.handle('start-pose-server', async () => {
     if (poseDataServer) {
-        console.log('[Main Process] Pose data server is already running.');
+        // console.log('[Main Process] Pose data server is already running.');
         return { success: true, message: 'Server already running.' };
     }
 
@@ -142,19 +141,19 @@ ipcMain.handle('start-pose-server', async () => {
         poseDataServer = new WebSocket.Server({ port: 8183 });
 
         poseDataServer.on('listening', () => {
-            console.log('[Main Process] Pose data WebSocket server started on port 8183.');
+            // console.log('[Main Process] Pose data WebSocket server started on port 8183.');
         });
 
         poseDataServer.on('connection', (ws) => {
             // If there's an existing client, disconnect it first.
             if (currentPoseClient) {
-                console.log('[Main Process] New client connected. Closing existing connection.');
+                // console.log('[Main Process] New client connected. Closing existing connection.');
                 currentPoseClient.close(1000, 'New connection established');
             }
 
             // Set the new connection as the current one.
             currentPoseClient = ws;
-            console.log('[Main Process] New client is now active.');
+            // console.log('[Main Process] New client is now active.');
 
             // Send a status update to the GUI
             mainWindow.webContents.send('pose-connection-status', { connected: true, count: 1 });
@@ -169,7 +168,7 @@ ipcMain.handle('start-pose-server', async () => {
             });
 
             ws.on('close', () => {
-                console.log('[Main Process] Active client disconnected.');
+                // console.log('[Main Process] Active client disconnected.');
                 // If the client that disconnected is the one we were tracking, clear it.
                 if (ws === currentPoseClient) {
                     currentPoseClient = null;

@@ -2,10 +2,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
   
-  // This is needed for the intro page to get the IP address
+  // get the IP address
   getAppInfo: () => ipcRenderer.invoke('get-app-info'),  
-  // This is needed for the "Start Posing" button to work
+  // the "Start Posing" button (in the HTML page)
   startPosing: () => ipcRenderer.invoke('start-posing'),
+  
   // Load the Scratch project
   getFileAsBuffer: (filePath) => ipcRenderer.invoke('get-file-as-buffer', filePath),
 

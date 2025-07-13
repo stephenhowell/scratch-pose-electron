@@ -224,8 +224,6 @@
         });
 
         async function startPosing() {
-            // This is the first message you should see in the DevTools console
-            console.log('[Intro Page] "Start Posing" button clicked. Sending IPC message...');
             try {
                 const result = await window.electronAPI.startPosing();
                 if (!result.success) {

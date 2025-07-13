@@ -6,3 +6,6 @@
 	path = scratch-forks/scratch-vm
 	url = https://github.com/stephenhowell/scratch-vm.git
 	branch = develop
+[submodule "scratch-forks/scratch-blocks"]
+	path = scratch-forks/scratch-blocks
+	url = https://github.com/stephenhowell/scratch-blocks.git
