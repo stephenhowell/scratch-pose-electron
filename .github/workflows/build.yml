@@ -37,7 +37,7 @@ jobs:
     - name: Link scratch-vm
       working-directory: scratch-forks/scratch-vm
       run: npm link
-    
+      
     - name: Install scratch-gui dependencies
       working-directory: scratch-forks/scratch-gui
       run: npm ci
