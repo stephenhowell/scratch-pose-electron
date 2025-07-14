@@ -5,6 +5,9 @@ module.exports = {
   packagerConfig: {
     asar: true,    
     icon: './src/icons/icon',
+    win32metadata: {
+      "requested-execution-level": "asInvoker"
+    },
     extraResource: [
       './src/assets/'
     ],
@@ -17,7 +20,11 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        // --- This is the signing configuration ---        
+        certificateFile: process.env.WIN_CSC_LINK,        
+        certificatePassword: process.env.WIN_CSC_KEY_PASSWORD
+      }
     },
     {
       name: '@electron-forge/maker-zip',

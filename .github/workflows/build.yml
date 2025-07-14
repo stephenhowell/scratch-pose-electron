@@ -1,63 +1,66 @@
-name: Build Body Blocks Electron
+name: Build Body Blocks Electron for macOS
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # Manual trigger
+  workflow_dispatch:  # Allows manual trigger from the Actions tab
 
 jobs:
   build:
+    # This strategy matrix sets up two parallel jobs, both running on a Mac runner.
+    # One will build for Intel (x64) and the other for Apple Silicon (arm64).
     strategy:
       matrix:
         include:
-          - os: windows-latest
-            name: Windows
           - os: macos-latest
-            name: macOS
+            arch: x64
+            name: macOS-Intel
+          - os: macos-latest
+            arch: arm64
+            name: macOS-Apple-Silicon
     
     runs-on: ${{ matrix.os }}
     
     steps:
+    # 1. Check out the code, including all submodules
     - uses: actions/checkout@v4
       with:
         submodules: recursive
     
+    # 2. Set up the correct Node.js version
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
     
+    # 3. Install dependencies for the main Electron project
     - name: Install main dependencies
       run: npm ci
     
+    # 4. Install dependencies for the scratch-vm submodule
     - name: Install scratch-vm dependencies
       working-directory: scratch-forks/scratch-vm
       run: npm ci
-    
-    - name: Link scratch-vm
-      working-directory: scratch-forks/scratch-vm
-      run: npm link
-      
+
+    # 5. Install dependencies for the scratch-gui submodule
     - name: Install scratch-gui dependencies
       working-directory: scratch-forks/scratch-gui
       run: npm ci
     
-    - name: Link scratch-vm to scratch-gui
-      working-directory: scratch-forks/scratch-gui
-      run: npm link scratch-vm
-    
+    # 6. Create the production build of the scratch-gui interface
     - name: Build Scratch GUI
       run: npm run build:scratch
     
+    # 7. Use Electron Forge to create the final application package for the specified architecture
     - name: Make Electron App
-      run: npm run make
+      run: npm run make -- --arch=${{ matrix.arch }}
       
+    # 8. Upload the final .zip and .dmg files as downloadable artifacts
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: BodyBlocks-${{ matrix.name }}
         path: |
-          out/make/**/*.exe
           out/make/**/*.zip
           out/make/**/*.dmg
         if-no-files-found: error
