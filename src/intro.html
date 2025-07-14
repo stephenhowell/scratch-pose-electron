@@ -4,18 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PoseLandmarkBlocks - Body Tracking for Scratch</title>
+    <title>Body Blocks for Scratch 3.0</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 40px;
+            padding: 5px 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center; /* Helps center content vertically */
         }
 
         .container {
@@ -34,28 +35,28 @@
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.8rem; /* Slightly smaller */
+            margin-bottom: 0.5rem; /* Reduced margin */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .subtitle {
             font-size: 1.4rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem; /* Reduced margin */
             opacity: 0.9;
         }
 
         .steps {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
+            padding: 1rem 2rem; /* Reduced padding */
+            margin: 1rem 0; /* Reduced margin */
             backdrop-filter: blur(10px);
         }
 
         .step {
-            margin: 1.5rem 0;
-            padding: 1rem;
+            margin: 1rem 0; /* Reduced margin */
+            padding: 0.5rem; /* Reduced padding */
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             font-size: 1.1rem;
@@ -77,12 +78,13 @@
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 15px 40px;
+            padding: 12px 35px; /* Slightly smaller */
             font-size: 1.3rem;
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem; /* Added margin */
         }
 
         .start-button:hover {
@@ -92,13 +94,13 @@
         }
 
         .device-options {
-            margin: 2rem 0;
+            margin: 1rem 0; /* Reduced margin */
         }
 
         .device-option {
             display: inline-block;
             margin: 0 1rem;
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem; /* Reduced padding */
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             border: 2px solid transparent;
@@ -114,9 +116,9 @@
 
         .ip-info {
             background: rgba(255, 255, 255, 0.15);
-            padding: 1rem;
+            padding: 0.8rem; /* Reduced padding */
             border-radius: 10px;
-            margin: 1rem 0;
+            margin: 0.8rem 0; /* Reduced margin */
             font-family: monospace;
             font-size: 1.1rem;
         }

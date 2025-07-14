@@ -16,12 +16,45 @@ let currentPoseClient = null;
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1920, height: 1080,
+        title: 'Body Blocks for Scratch 3', 
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         }
     });
     mainWindow.loadFile(path.join(__dirname, 'intro.html'));
-    if (isDev) mainWindow.webContents.openDevTools();
+    if (isDev) {
+        mainWindow.webContents.openDevTools();
+    } else {
+        // remove the menu bar in production.
+        mainWindow.setMenu(null);
+    }
+
+    mainWindow.on('close', (event) => {
+        // Prevent the window from closing immediately.
+        event.preventDefault();
+
+        // Check if the WebSocket server is running.
+        if (currentPoseClient) {
+            currentPoseClient.close();
+            currentPoseClient = null;                                  
+        }
+            // Close the server. The callback will run once it's fully shut down.
+         if(poseDataServer) {
+            poseDataServer.close(() => {
+                // Now that the server is closed, it's safe to destroy the window.
+                mainWindow.destroy();
+            });
+        } else {
+            // If the server isn't running, just destroy the window immediately.
+            mainWindow.destroy();
+        }
+    });
+
+    // This event handles the final app quit when all windows are gone.    
+    app.on('window-all-closed', () => {
+        app.quit();
+    });
+
 }
 
 ipcMain.handle('get-app-info', () => {
@@ -191,4 +224,3 @@ ipcMain.handle('start-pose-server', async () => {
 });
 
 app.whenReady().then(createWindow);
-app.on('window-all-closed', () => app.quit());
